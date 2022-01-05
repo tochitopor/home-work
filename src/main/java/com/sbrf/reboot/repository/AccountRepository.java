@@ -1,10 +1,9 @@
 package com.sbrf.reboot.repository;
 
-import com.sbrf.reboot.repository.account.Account;
-
+import java.io.IOException;
 import java.util.Set;
 
 public interface AccountRepository {
-    Set<Account> getAllAccountsByClientId(long clientId);
-    Set<Account> getAllAccounts();
+    Set<Long> getAllAccountsByClientId(long clientId) throws IOException;
+    boolean updateAccountByClientId(long clientId, long oldAccount, long newAccount) throws IOException;
 }

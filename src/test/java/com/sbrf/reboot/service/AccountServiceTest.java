@@ -2,15 +2,12 @@ package com.sbrf.reboot.service;
 
 import com.sbrf.reboot.repository.AccountRepository;
 import com.sbrf.reboot.repository.AccountService;
-import com.sbrf.reboot.repository.account.Account;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,12 +31,11 @@ class AccountServiceTest {
     @SneakyThrows
     @Test
     void contractExist() {
+        Set<Long> accounts = new HashSet<>();
+        accounts.add(111L);
+
         long clientId = 1L;
         long contractNumber = 111L;
-        Account account = new Account(clientId,contractNumber,
-                new GregorianCalendar(1983, Calendar.DECEMBER,29));
-        Set<Account> accounts = new HashSet<>();
-        accounts.add(account);
 
 
         when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
@@ -50,51 +46,49 @@ class AccountServiceTest {
     @SneakyThrows
     @Test
     void contractNotExist() {
+        Set<Long> accounts = new HashSet<>();
+        accounts.add(222L);
+
         long clientId = 1L;
         long contractNumber = 111L;
-        long badContractNumber = 222L;
-        Account account = new Account(clientId,contractNumber,
-                new GregorianCalendar(1983, Calendar.DECEMBER,29));
-        Set<Account> accounts = new HashSet<>();
-        accounts.add(account);
-
 
         when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
 
-        assertFalse(accountService.isClientHasContract(clientId, badContractNumber));
+        assertFalse(accountService.isClientHasContract(clientId, contractNumber));
     }
 
     @SneakyThrows
     @Test
-    void existOverdueContract() {
+    void updateExistContract() {
+        Set<Long> accounts = new HashSet<>();
+        accounts.add(111L);
+
         long clientId = 1L;
-        long contractNumber = 111L;
-        Calendar calendar = new GregorianCalendar(1983, Calendar.DECEMBER,29);
-        Account account = new Account(clientId,contractNumber, calendar);
-        Set<Account> accounts = new HashSet<>();
-        accounts.add(account);
+        long oldContractNumber = 111L;
+        long newContractNumber = 1234L;
 
 
-        when(accountRepository.getAllAccounts()).thenReturn(accounts);
+        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+        when(accountRepository.updateAccountByClientId(clientId, oldContractNumber, newContractNumber)).thenReturn(true);
 
-        assertTrue(accountService.isHasOverdueContract());
+        assertTrue(accountService.updateAccountByClientId(clientId, oldContractNumber, newContractNumber));
     }
 
     @SneakyThrows
     @Test
-    void notExistOverdueContract() {
+    void updateNotExistContract() {
+        Set<Long> accounts = new HashSet<>();
+        accounts.add(111L);
+
         long clientId = 1L;
-        long contractNumber = 111L;
-        Calendar calendar = new GregorianCalendar();
-        calendar.add(Calendar.MONTH,1);
-        Account account = new Account(clientId,contractNumber, calendar);
-        Set<Account> accounts = new HashSet<>();
-        accounts.add(account);
+        long oldContractNumber = 222L;
+        long newContractNumber = 1234L;
 
 
-        when(accountRepository.getAllAccounts()).thenReturn(accounts);
+        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+        when(accountRepository.updateAccountByClientId(clientId, oldContractNumber, newContractNumber)).thenReturn(true);
 
-        assertFalse(accountService.isHasOverdueContract());
+        assertFalse(accountService.updateAccountByClientId(clientId, oldContractNumber, newContractNumber));
     }
 
     @Test

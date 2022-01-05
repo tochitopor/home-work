@@ -1,9 +1,9 @@
 package com.sbrf.reboot.repository;
 
-import com.sbrf.reboot.repository.account.Account;
-
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Map;
 
 public class AccountService {
 
@@ -13,22 +13,12 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public boolean isClientHasContract(long clientId, long contractNumber) {
-        for(Account account : accountRepository.getAllAccountsByClientId(clientId)){
-            if(account.getContract() == contractNumber){
-                return true;
-            }
-        }
-        return false;
+    public boolean isClientHasContract(long clientId, long contractNumber) throws IOException {
+        return accountRepository.getAllAccountsByClientId(clientId).contains(contractNumber);
     }
 
-    public boolean isHasOverdueContract() {
-        Calendar currentDate = new GregorianCalendar();
-        for(Account account : accountRepository.getAllAccounts()){
-            if(currentDate.after(account.getEndDate())){
-                return true;
-            }
-        }
-        return false;
+    public boolean updateAccountByClientId(long clientId, long oldAccount, long newAccount) throws IOException {
+        return accountRepository.getAllAccountsByClientId(clientId).contains(oldAccount) &
+                 accountRepository.updateAccountByClientId(clientId, oldAccount, newAccount);
     }
 }
