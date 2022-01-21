@@ -34,10 +34,11 @@ public class CollectionsTest {
         // добавляться и в середену списка тоже. Так что ArrayList.
         List<String> students = new ArrayList<>();
 
-        students.add("Козлов");
         students.add("Петров");
         students.add("Сидоров");
         students.add("Ганжа");
+
+        students.add(0,"Козлов");
 
 
         assertEquals(4, students.size());
