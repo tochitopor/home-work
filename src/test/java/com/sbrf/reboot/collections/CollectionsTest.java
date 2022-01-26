@@ -29,10 +29,7 @@ public class CollectionsTest {
     @Test
     public void addStudentToRating() {
 
-        // Наеврное в формулировке задания предполгася связанный список, раз студент
-        // доавлялся в начало списка, но можно предпологать, что в будущем студенты будут
-        // добавляться и в середену списка тоже. Так что ArrayList.
-        List<String> students = new ArrayList<>();
+        List<String> students = new LinkedList<>();
 
         students.add("Петров");
         students.add("Сидоров");
