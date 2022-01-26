@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 public class EqualsHashCodeTest {
 
@@ -21,10 +22,38 @@ public class EqualsHashCodeTest {
             if (o == this)
                 return true;
 
-            return false;
+            // a.equals(null) == false
+            if (o == null)
+                return false;
+
+            // это вообще объект нашего класса?
+            if(getClass() != o.getClass())
+                return false;
+
+            // Далее Симметричность, Транзитивность и Постоянство
+            // (Если сравнить все поля, то и условия эти выполнятся)
+            Car car = (Car) o;
+
+            if(!this.model.equals(car.model))
+                return false;
+
+            if(!this.color.equals(car.color))
+                return false;
+
+            if(!this.releaseDate.equals(car.releaseDate))
+                return false;
+
+            return this.maxSpeed == car.maxSpeed;
         }
 
-
+        @Override
+         public int hashCode(){
+            int result = model == null ? 0 : model.hashCode();
+            result = 31 * result + (color == null ? 0 : color.hashCode());
+            result = 31 * result + (releaseDate == null ? 0 : releaseDate.hashCode());
+            result = 31 * result + maxSpeed;
+            return result;
+        }
      }
 
     @Test
