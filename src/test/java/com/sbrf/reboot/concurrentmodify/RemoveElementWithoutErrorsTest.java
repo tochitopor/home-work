@@ -13,7 +13,7 @@ public class RemoveElementWithoutErrorsTest {
 
     @Test
     public void successConcurrentModificationException() {
-        List<Integer> list = new ArrayList() {{
+        List<Integer> list = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
@@ -31,7 +31,7 @@ public class RemoveElementWithoutErrorsTest {
 
     @Test
     public void successRemoveElementWithoutErrors() {
-        List<Integer> list = new ArrayList() {{
+        List<Integer> list = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
@@ -49,13 +49,13 @@ public class RemoveElementWithoutErrorsTest {
 
    @Test
     public void yetAnotherSuccessRemoveElementWithoutErrors() {
-        List<Integer> list = new ArrayList() {{
+        List<Integer> list = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
         }};
 
-        List<Integer> list2 = new ArrayList();
+        List<Integer> list2 = new ArrayList<>();
         for(Integer i : list){
             if(i != 2) {
                 list2.add(i);
@@ -70,7 +70,7 @@ public class RemoveElementWithoutErrorsTest {
     // Тот же способ что и в successRemoveElementWithoutErrors(),
     // но вся кухня спрятана в методе removeIf()
     public void secondYetAnotherSuccessRemoveElementWithoutErrors() {
-        List<Integer> list = new ArrayList() {{
+        List<Integer> list = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
